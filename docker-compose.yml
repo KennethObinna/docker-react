@@ -1,0 +1,30 @@
+
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "3000:3000" #port outside to port inside the container
+#     volumes:
+#       - /app/node_modules
+#       - .:/app
+
+services:
+  web:
+    build: 
+      context: . # where we want all the files and folders to be pulled from
+      dockerfile: Dockerfile.dev # Look into project workin g directory, file the file dockerfile.dev and use it as the Dockerfile to build the image.
+    ports:
+      - "3000:3000" #port outside to port inside the container
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    build: 
+      context: . # where we want all the files and folders to be pulled from
+      dockerfile: Dockerfile.dev # Look into project workin g directory, file the file dockerfile.dev and use it as the Dockerfile to build the image.
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm","run","test"]
+     
