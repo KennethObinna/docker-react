@@ -1,0 +1,10 @@
+sudo: required # thistells travis that we need sudo permission in other to permit this build
+services:  
+  - docker # tells the travis cli that we need docker service to be installd
+
+before_install: # things to install before our test runs
+  - docker build -t komioc/tech -f Dockerfile.dev .
+
+script: # contains all the commands that needs to be executed
+  - docker run -e CI=true komioc/tech npm run test -- --coverage
+  
