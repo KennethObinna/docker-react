@@ -7,4 +7,18 @@ before_install: # things to install before our test runs
 
 script: # contains all the commands that needs to be executed
   - docker run -e CI=true komioc/tech npm run test -- --coverage
-  
+
+deploy:
+  provider: elasticbeanstalk  #Automatically deploy our application using Travis BeanStalk
+  region: "us-west-2" # what you specify must be what your Docker-dev url has on the (WAS orAzure )etc
+  app: "docker"
+  env: "Docker-env"
+  bucket_name: "elasticbeanstalk-us-west-2-306476627547"   # name of bucket that the travis would put our zip file into . It should be based on what your elasticbeanstalk and region are. search for it and click to get what that has been entered here.
+  bucket_path: "docker" # By defult the path nam emight not be created if for the first build, just use app: name as the same as bucket_path 
+  on:
+    branch: master # This means that any time we push code to master that is hwen we trigegr for deployment
+    # we go to AWS to create User and api key
+    # Go to tracis from settings at the right hand we create environment variables
+    #Then use the variable name on our travis.ylm file : which is here
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"  
